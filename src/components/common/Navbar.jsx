@@ -41,11 +41,11 @@ const Navbar = () => {
           </Link>
           {/* Desktop Nav */}
           <div className="items-center justify-between hidden w-full md:flex md:w-auto">
-            <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-              <li><Link to="/" className={`block py-2 px-3 text-gray-900 hover:text-blue-700 md:p-0 dark:text-white ${window.location.pathname === '/' ? 'text-blue-700' : ''}`}>Home</Link></li>
-              <li><Link to="/about" className={`block py-2 px-3 text-gray-900 hover:text-blue-700 md:p-0 dark:text-white ${window.location.pathname === '/about' ? 'text-blue-700' : ''}`}>About</Link></li>
-                <li><Link to="/services" className={`block py-2 px-3 text-gray-900 hover:text-blue-700 md:p-0 dark:text-white ${window.location.pathname === '/services' ? 'text-blue-700' : ''}`}>Services</Link></li>
-              <li><Link to="/contact" className={`block py-2 px-3 text-gray-900 hover:text-blue-700 md:p-0 dark:text-white ${window.location.pathname === '/contact' ? 'text-blue-700' : ''}`}>Contact</Link></li>
+            <ul className="flex flex-col p-0 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+              <li><Link to="/" className={`block p-0  ${window.location.pathname === '/' ? 'text-purple-700 dark:text-purple-400 border-b' : 'text-gray-900 hover:text-blue-700 dark:text-white'}`}>Home</Link></li>
+              <li><Link to="/about" className={`block p-0  ${window.location.pathname === '/about' ? 'text-purple-700 dark:text-purple-400 border-b' : 'text-gray-900 hover:text-blue-700 dark:text-white'}`}>About</Link></li>
+                <li><Link to="/services" className={`block p-0${window.location.pathname === '/services' ? 'text-purple-700 dark:text-purple-400 border-b' : 'text-gray-900 hover:text-blue-700 dark:text-white'}`}>Services</Link></li>
+              <li><Link to="/contact" className={`block p-0 ${window.location.pathname === '/contact' ? 'text-purple-700 dark:text-purple-400 border-b' : 'text-gray-900 hover:text-blue-700 dark:text-white'}`}>Contact</Link></li>
             </ul>
           </div>
 
