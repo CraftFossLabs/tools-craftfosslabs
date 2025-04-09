@@ -35,17 +35,17 @@ const Routess = () => {
         />
         <Route
           path="/register"
-          element={<CommonLayout children = {<AuthLayout children={<Register />} /> } />}
+          element={<CommonLayout children={<AuthLayout children={<Register />} />} />}
           ErrorBoundary={<ErrorBoundary />}
         />
         <Route
           path="/login"
-          element={<CommonLayout children={<Login />} />}
+          element={<CommonLayout children={<AuthLayout children={<Login />} />} />}
           ErrorBoundary={<ErrorBoundary />}
         />
         <Route
           path="/reset-password"
-          element={<CommonLayout children={<ResetPassword />} />}
+          element={<CommonLayout children={<AuthLayout children={<ResetPassword />} />} />}
           ErrorBoundary={<ErrorBoundary />}
         />
         <Route

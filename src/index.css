@@ -7,3 +7,20 @@ html{
 ::-webkit-scrollbar{
     width: 0px;
 }
+
+@keyframes slide-x {
+    0% {
+      transform: translateX(0) rotate(0deg);
+    }
+    50% {
+      transform: translateX(80px) rotate(360deg);
+    }
+    100% {
+      transform: translateX(0) rotate(0deg);
+    }
+  }
+  
+  .animate-slide-x {
+    animation: slide-x 4s ease-in-out infinite;
+  }
+  

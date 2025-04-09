@@ -4,12 +4,10 @@ import Footer from '../../components/common/Footer';
 
 const CommonLayout = ({ children }) => {
   return (
-    <> 
+    <>
       <Navbar />
-      <div className="dark:bg-gray-900 min-h-screen py-20 text-black dark:text-white">
-      {children}
-      </div>
-      <Footer /> 
+      <div className="bg-gray-50 dark:bg-gray-900 py-20 text-black dark:text-white">{children}</div>
+      <Footer />
     </>
   );
 };
