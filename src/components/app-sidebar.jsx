@@ -58,16 +58,20 @@ const data = {
       isActive: true,
       items: [
         {
-          title: 'History',
-          url: '#',
+          title: 'Overview',
+          url: '/finance-planner/overview',
         },
         {
-          title: 'Starred',
-          url: '#',
+          title: 'Expenses',
+          url: '/finance-planner/expense',
         },
         {
-          title: 'Settings',
-          url: '#',
+          title: 'Loan',
+          url: '/finance-planner/loan',
+        },
+        {
+          title: 'Reports',
+          url: '/finance-planner/reports',
         },
       ],
     },
@@ -166,8 +170,7 @@ export function AppSidebar({ ...props }) {
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <div className="flex justify-start items-center gap-2">
-          {' '}
-          <img src="/Logo.svg" alt="logo" loading="lazy" className="w-6 h-6" /> CRAFTFOSSLABS{' '}
+          <img src="/Logo.svg" alt="logo" loading="lazy" className="w-6 h-6" /> CRAFTFOSSLABS
         </div>
       </SidebarHeader>
       <SidebarContent>

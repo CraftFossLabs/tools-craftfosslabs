@@ -14,6 +14,10 @@ import PrivacyPolicy from '../pages/PrivacyPolicy';
 import TermsCondition from '../pages/TermsCondition';
 import AuthLayout from './layout/AuthLayout';
 import DashboardLayout from './layout/DashboardLayout';
+import Overview from '@/pages/financePlanner/Overview';
+import Expenses from '@/pages/financePlanner/Expenses';
+import Loan from '@/pages/financePlanner/Loan';
+import Reports from '@/pages/financePlanner/Reports';
 
 const Routess = () => {
   return (
@@ -54,6 +58,28 @@ const Routess = () => {
           element={<DashboardLayout children={<Dashboard />} />}
           ErrorBoundary={<ErrorBoundary />}
         />
+
+        <Route
+          path="/finance-planner/overview"
+          element={<DashboardLayout children={<Overview />} />}
+          ErrorBoundary={<ErrorBoundary />}
+        />
+        <Route
+          path="/finance-planner/expense"
+          element={<DashboardLayout children={<Expenses />} />}
+          ErrorBoundary={<ErrorBoundary />}
+        />
+        <Route
+          path="/finance-planner/loan"
+          element={<DashboardLayout children={<Loan />} />}
+          ErrorBoundary={<ErrorBoundary />}
+        />
+        <Route
+          path="/finance-planner/reports"
+          element={<DashboardLayout children={<Reports />} />}
+          ErrorBoundary={<ErrorBoundary />}
+        />
+
         <Route
           path="/privacy-policy"
           element={<CommonLayout children={<PrivacyPolicy />} />}
