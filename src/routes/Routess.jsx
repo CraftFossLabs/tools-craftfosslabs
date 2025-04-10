@@ -13,6 +13,7 @@ import NotFound from '../pages/NotFound';
 import PrivacyPolicy from '../pages/PrivacyPolicy';
 import TermsCondition from '../pages/TermsCondition';
 import AuthLayout from './layout/AuthLayout';
+import DashboardLayout from './layout/DashboardLayout';
 
 const Routess = () => {
   return (
@@ -48,7 +49,11 @@ const Routess = () => {
           element={<CommonLayout children={<AuthLayout children={<ResetPassword />} />} />}
           ErrorBoundary={<ErrorBoundary />}
         />
-        <Route path="/dashboard" element={<Dashboard />} ErrorBoundary={<ErrorBoundary />} />
+        <Route
+          path="/dashboard"
+          element={<DashboardLayout children={<Dashboard />} />}
+          ErrorBoundary={<ErrorBoundary />}
+        />
         <Route
           path="/privacy-policy"
           element={<CommonLayout children={<PrivacyPolicy />} />}
