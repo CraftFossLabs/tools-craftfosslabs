@@ -50,24 +50,16 @@ const Editor = ({ file }) => {
     if (!file) return null;
     return (
       <div
-        className="h-9 flex items-center justify-between border-b"
-        style={{
-          backgroundColor: theme.accent,
-          borderColor: theme.border,
-        }}
+        className={`h-9 flex items-center justify-between border-b ${theme.border} bg-gradient-to-tl ${theme.primary} ${theme.text}`}
       >
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="flex items-center h-full px-3 text-[13px]"
-          style={{
-            backgroundColor: theme.primary,
-            color: theme.secondary,
-          }}
+          className={`flex items-center h-full px-3 text-[13px]  ${theme.secondary} ${theme.highlight}`}
         >
           {file.name}
           {file.content.length > 100000 && (
-            <span className="ml-2 text-xs text-yellow-500">
+            <span className="ml-2 text-xs">
               (Large file - {Math.round(file.content.length / 1000)}KB)
             </span>
           )}
@@ -120,16 +112,19 @@ const Editor = ({ file }) => {
   }
 
   return (
-    <motion.div className={`flex-1 flex flex-col overflow-hidden bg-gray-800 `}>
+    <motion.div
+      className={`flex-1 flex flex-col overflow-scroll bg-gradient-to-bl ${theme.primary} max-w-4xl ${theme.text}`}
+    >
       {renderTabs()}
       <div className="flex-1 overflow-auto">
-        <div className="p-4">
+        <div className="p-2">
           {isLoading ? (
-            <div className="flex items-center justify-center h-full">
-              <Loader2 className="animate-spin" size={24} style={{ color: theme.accent }} />
+            <div className="flex flex-col items-center justify-center h-full">
+              <Loader2 className={`animate-spin ${theme.highlight}`} size={24} />
+              <p>Loading Your Code Please Wait</p>
             </div>
           ) : (
-            <pre className="!bg-transparent !m-0 !p-0">
+            <pre className="bg-transparent m-0 p-0">
               <code
                 ref={codeRef}
                 className={`language-${file.language}`}

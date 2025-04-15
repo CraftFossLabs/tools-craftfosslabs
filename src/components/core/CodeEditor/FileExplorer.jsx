@@ -63,12 +63,9 @@ const FileExplorer = ({ data, onFileSelect }) => {
     return (
       <div key={fullPath}>
         <div
-          className="flex items-center h-6 cursor-pointer text-[13px]"
+          className={`flex items-center h-6 cursor-pointer text-[13px] bg-transparent  ${theme.highlight}`}
           style={{
             paddingLeft: `${depth * 8 + 4}px`,
-            color: theme.highlight,
-            backgroundColor: 'transparent',
-            '&:hover': { backgroundColor: theme.secondary },
           }}
           onClick={() => toggleExpand(fullPath)}
         >
@@ -76,13 +73,13 @@ const FileExplorer = ({ data, onFileSelect }) => {
             <Icon
               path={isExpanded ? mdiChevronDown : mdiChevronRight}
               size={0.6}
-              style={{ color: theme.secondary }}
+              className={`${isExpanded ? <> {theme.secondary} </> : ''}`}
             />
           </motion.div>
           <Icon
             path={isExpanded ? mdiFolderOpen : mdiFolder}
             size={0.6}
-            style={{ color: theme.highlight }}
+            className={`${theme.highlight}`}
           />
           <span className="ml-1">{item.name}</span>
         </div>
@@ -104,27 +101,22 @@ const FileExplorer = ({ data, onFileSelect }) => {
 
   return (
     <div
-      className="md:w-2/12 h-full overflow-y-auto flex flex-col justify-between bg-white"
-      style={{
-        borderRight: `1px solid ${theme.border}`,
-      }}
+      className={`md:w-2/12 h-full overflow-y-auto flex flex-col justify-between bg-gradient-to-bl ${theme.primary} min-h-96 border-r ${theme.border}`}
     >
-      <div className="">
+      <div className="max-w-96">
         <div className="p-2 flex justify-between items-center">
           <span className="text-[11px] uppercase tracking-wide" style={{ color: theme.text }}>
             Explorer
           </span>
           <div className="flex gap-2 items-center">
-            <Share2Icon size={16} style={{ color: theme.highlight }} className="cursor-pointer" />
+            <Share2Icon size={16} className={` ${theme.highlight} cursor-pointer`} />
           </div>
         </div>
         {renderItem(data)}
       </div>
 
-      <div className="flex justify-center items-center">
-        <span className="text-[11px] uppercase tracking-wide" style={{ color: theme.highlight }}>
-          Made BY CraftFossLabs
-        </span>
+      <div className={`flex justify-center items-center p-1 ${theme.secondary} ${theme.highlight}`}>
+        <span className="text-[11px] uppercase tracking-wide">Made BY CraftFossLabs</span>
       </div>
     </div>
   );
