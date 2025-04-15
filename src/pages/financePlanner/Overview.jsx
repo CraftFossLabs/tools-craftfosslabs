@@ -12,6 +12,9 @@ import StatCard from '@/components/core/finance-planner/StatCard';
 import SideIncomeCard from '@/components/core/finance-planner/SideIncomeCard';
 import CategoryCard from '@/components/core/finance-planner/CategoryCard';
 import RecentTransactionCard from '@/components/core/finance-planner/RecentTransactionCard';
+import Header from '@/components/core/finance-planner/Header';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 const Overview = () => {
   const { theme } = useTheme();
@@ -101,38 +104,29 @@ const Overview = () => {
   return (
     <>
       <div className="p-2">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8 flex items-center space-x-4"
-        >
-          <div className={`p-3 rounded-full bg-gradient-to-r ${theme.primary}`}>
-            <LayoutDashboardIcon className={`w-8 h-8 ${theme.text}`} />
-          </div>
-          <div>
-            <h1 className={`text-3xl font-bold ${theme.highlight}`}>Financial Overview</h1>
-            <p className="text-lg text-gray-600">Track your finances and plan your future</p>
-          </div>
-        </motion.div>
-
+        <Header
+          title={'Financial Overview'}
+          text={'Track your finances and plan your future'}
+          children={<LayoutDashboardIcon className={`w-8 h-8 ${theme.text}`} />}
+        />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <StatCard title="Monthly Income" value={`₹${totalIncome}`}>
             <div className="mt-2">
               {isEditingSalary ? (
                 <div className="flex items-center space-x-2">
-                  <input
+                  <Input
                     type="number"
                     value={tempSalary}
                     onChange={e => setTempSalary(e.target.value)}
-                    className="block w-full p-1 appearance-none rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    className={`w-full border ${theme.border} shadow-sm  sm:text-sm`}
                     placeholder="Enter salary"
                   />
-                  <button
+                  <Button
                     onClick={handleSalarySubmit}
-                    className={`px-2 py-1 rounded text-black text-sm bg-gradient-to-r ${theme.primary}`}
+                    className={` ${theme.text} text-xs ${theme.button}`}
                   >
                     Save
-                  </button>
+                  </Button>
                 </div>
               ) : (
                 <div className="flex items-center space-x-2">

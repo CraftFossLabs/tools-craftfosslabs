@@ -11,6 +11,7 @@ import { useTheme } from '@/context/ThemeContext';
 import SummaryCard from '@/components/core/finance-planner/SummaryCard';
 import LoanCard from '@/components/core/finance-planner/LoanCard';
 import FlexiblePaymentSchedule from '@/components/core/finance-planner/FlexiblePaymentSchedule';
+import Header from '@/components/core/finance-planner/Header';
 
 const Reports = () => {
   const { theme } = useTheme();
@@ -178,21 +179,12 @@ const Reports = () => {
 
   return (
     <>
-      <div className="md:px-4 md:py-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8 flex items-center space-x-4"
-        >
-          <div className={`p-3 rounded-full bg-gradient-to-r ${theme.primary} bg-opacity-10`}>
-            <ChartPieIcon className={`w-8 h-8 text-white`} />
-          </div>
-          <div>
-            <h1 className="md:text-3xl font-bold text-gray-900">Loan Analytics</h1>
-            <p className="md:text-lg text-gray-600">Track your loans and payment schedules</p>
-          </div>
-        </motion.div>
-
+      <div className="p-2">
+        <Header
+          title={'Loan Analytics'}
+          text={'Track your loans and payment schedules'}
+          children={<ChartPieIcon className={`w-8 h-8 ${theme.text}`} />}
+        />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 w-full">
           <SummaryCard
             title="Total Loan Amount"
@@ -225,9 +217,9 @@ const Reports = () => {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-center py-12 bg-white rounded-xl shadow-sm"
+              className={`text-center py-12 bg-gradient-to-tl ${theme.primary} rounded-xl hover:shadow-sm`}
             >
-              <ChartBarBigIcon className="mx-auto h-12 w-12 text-gray-400" />
+              <ChartBarBigIcon className={`mx-auto h-12 w-12 ${theme.text} `} />
               <h3 className="mt-2 text-sm font-medium text-gray-900">No loans</h3>
               <p className="mt-1 text-sm text-gray-500">Get started by adding a new loan.</p>
             </motion.div>

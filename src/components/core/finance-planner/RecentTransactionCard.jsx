@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '@/context/ThemeContext';
-import { CalendarIcon, TagIcon, WalletIcon } from 'lucide-react';
+import { CalendarIcon, IndianRupeeIcon, TagIcon, WalletIcon } from 'lucide-react';
 
 const RecentTransactionCard = ({ item, type }) => {
   const { theme } = useTheme();
@@ -46,7 +46,7 @@ const RecentTransactionCard = ({ item, type }) => {
               className={`w-5 h-5 ${type === 'expense' ? 'text-red-600' : 'text-green-600'}`}
             />
           ) : (
-            <BanknotesIcon
+            <IndianRupeeIcon
               className={`w-5 h-5 ${type === 'expense' ? 'text-red-600' : 'text-green-600'}`}
             />
           )}

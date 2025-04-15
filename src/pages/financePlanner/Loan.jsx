@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/context/ThemeContext';
-import { BanknoteIcon } from 'lucide-react';
+import { IndianRupeeIcon } from 'lucide-react';
 import LoanForm from '@/components/core/finance-planner/LoanForm';
 import LoanList from '@/components/core/finance-planner/LoanList';
+import Header from '@/components/core/finance-planner/Header';
+import SuccessMessage from '@/components/core/finance-planner/SuccessMessage';
 
 const Loan = () => {
   const { theme } = useTheme();
@@ -32,21 +34,12 @@ const Loan = () => {
 
   return (
     <>
-      <div className="md:px-4 md:py-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8 flex items-center space-x-4"
-        >
-          <div className={`p-3 rounded-full bg-gradient-to-r ${theme.primary} bg-opacity-10`}>
-            <BanknoteIcon className={`w-8 h-8 text-white`} />
-          </div>
-          <div>
-            <h1 className="md:text-3xl font-bold text-gray-900">Loan Planner</h1>
-            <p className="md:text-lg text-gray-600">Manage your loans with ease</p>
-          </div>
-        </motion.div>
-
+      <div className="p-2">
+        <Header
+          title={'Loan Planner'}
+          text={'Manage your loans with ease'}
+          children={<IndianRupeeIcon className={`w-8 h-8 ${theme.text}`} />}
+        />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <LoanForm
             loans={loans}
@@ -65,14 +58,12 @@ const Loan = () => {
 
         <AnimatePresence>
           {showSuccess && (
-            <motion.div
+            <SuccessMessage
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 50 }}
-              className="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg"
-            >
-              {successMessage}
-            </motion.div>
+              message={successMessage}
+            />
           )}
         </AnimatePresence>
       </div>
