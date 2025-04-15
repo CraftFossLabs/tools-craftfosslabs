@@ -6,9 +6,12 @@ import 'prismjs/components/prism-jsx';
 import 'prismjs/components/prism-json';
 import 'prismjs/components/prism-css';
 import 'prismjs/components/prism-markup';
-import { Copy, Check, Loader2 } from 'lucide-react';
+import 'prismjs/components/prism-typescript';
+import 'prismjs/components/prism-bash';
+import { Copy, Check, Loader2, CircleDotDashed } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/context/ThemeContext';
+import toast from 'react-hot-toast';
 
 const Editor = ({ file }) => {
   const { theme } = useTheme();
@@ -38,10 +41,17 @@ const Editor = ({ file }) => {
     }
   }, [file]);
 
+  useEffect(() => {
+    if (codeRef.current) {
+      codeRef.current.scrollTop = 0;
+    }
+  }, [content]);
+
   const handleCopy = async () => {
     if (content) {
       await navigator.clipboard.writeText(content);
       setCopied(true);
+      toast.success('Copied to clipboard');
       setTimeout(() => setCopied(false), 2000);
     }
   };
@@ -50,13 +60,17 @@ const Editor = ({ file }) => {
     if (!file) return null;
     return (
       <div
-        className={`h-9 flex items-center justify-between border-b ${theme.border} bg-gradient-to-tl ${theme.primary} ${theme.text}`}
+        className={`h-9 flex items-center justify-between border-b ${theme.border}  ${theme.secondary} ${theme.text}`}
       >
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className={`flex items-center h-full px-3 text-[13px]  ${theme.secondary} ${theme.highlight}`}
+          className={`flex items-center h-full px-3 text-[13px]`}
         >
+          <span className="mr-2">
+            {' '}
+            <CircleDotDashed size={12} className={`${theme.highlight} animate-pulse`} />
+          </span>{' '}
           {file.name}
           {file.content.length > 100000 && (
             <span className="ml-2 text-xs">
@@ -100,11 +114,7 @@ const Editor = ({ file }) => {
   if (!file) {
     return (
       <div
-        className="flex-1 flex items-center justify-center text-[13px]"
-        style={{
-          backgroundColor: theme.primary,
-          color: theme.highlight,
-        }}
+        className={`flex-1 flex items-center justify-center text-[13px] ${theme.primary} ${theme.text}`}
       >
         Select a file to view its contents
       </div>
@@ -112,22 +122,20 @@ const Editor = ({ file }) => {
   }
 
   return (
-    <motion.div
-      className={`flex-1 flex flex-col overflow-scroll bg-gradient-to-bl ${theme.primary} max-w-4xl ${theme.text}`}
-    >
+    <motion.div className={`flex-1 flex flex-col w-[70vw] overflow-scroll bg-black`}>
       {renderTabs()}
-      <div className="flex-1 overflow-auto">
-        <div className="p-2">
+      <div className="flex-1 overflow-auto h-[94vh]">
+        <div className="p-4 bg-black h-[82vh] overflow-y-auto">
           {isLoading ? (
-            <div className="flex flex-col items-center justify-center h-full">
+            <div className="flex flex-col items-center justify-center">
               <Loader2 className={`animate-spin ${theme.highlight}`} size={24} />
               <p>Loading Your Code Please Wait</p>
             </div>
           ) : (
-            <pre className="bg-transparent m-0 p-0">
+            <pre className="!bg-transparent !m-0 !p-0">
               <code
                 ref={codeRef}
-                className={`language-${file.language}`}
+                className={`language-${file.language || 'javascript'}`}
                 style={{
                   fontFamily: 'Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace',
                   fontSize: '13px',

@@ -3,10 +3,11 @@ import { motion } from 'framer-motion';
 import FileExplorer from '@/components/core/CodeEditor/FileExplorer';
 import Editor from '@/components/core/CodeEditor/Editor';
 import fileStructure from '@/data/fileStructure.json';
+import { useTheme } from '@/context/ThemeContext';
 
 const CodeDashboard = () => {
   const [selectedFile, setSelectedFile] = useState(null);
-
+  const { theme } = useTheme();
   const handleFileSelect = file => {
     if (file.type === 'file') {
       setSelectedFile(file);
@@ -14,7 +15,7 @@ const CodeDashboard = () => {
   };
   return (
     <motion.div
-      className="flex flex-row "
+      className={`flex flex-row gap-0 border ${theme.border}  backdrop-blur-2xl rounded-lg`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}

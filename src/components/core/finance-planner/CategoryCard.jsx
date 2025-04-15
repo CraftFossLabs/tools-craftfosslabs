@@ -18,13 +18,13 @@ const CategoryCard = ({ category, amount, total }) => {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`${theme.secondary} ${theme.text} p-4 rounded-lg shadow-sm`}
+      className={`${theme.secondary} bg-opacity-50 ${theme.text} p-4 rounded-lg hover:shadow-sm mb-2`}
     >
       <div className="flex justify-between items-center mb-2">
         <span className="font-medium">{category}</span>
         <span className="font-light">₹{formatAmount(amount)}</span>
       </div>
-      <div className="w-full bg-gray-200 rounded-full h-2">
+      <div className="w-full bg-white rounded-full h-2">
         <div className={`${theme.accent} rounded-full h-2`} style={{ width: `${percentage}%` }} />
       </div>
       <div className="mt-1 text-right">

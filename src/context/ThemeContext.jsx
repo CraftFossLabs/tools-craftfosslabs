@@ -66,7 +66,7 @@ export const themes = {
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [currentTheme, setCurrentTheme] = useState('');
+  const [currentTheme, setCurrentTheme] = useState('Violet');
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('app-theme');

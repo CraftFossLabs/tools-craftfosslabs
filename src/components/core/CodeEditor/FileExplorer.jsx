@@ -44,16 +44,11 @@ const FileExplorer = ({ data, onFileSelect }) => {
           className="group"
         >
           <div
-            className="flex items-center h-6 hover:bg-[#2a2d2e] cursor-pointer text-[13px]"
-            style={{
-              paddingLeft: `${depth * 8 + 4}px`,
-              color: theme.highlight,
-              backgroundColor: 'transparent',
-              '&:hover': { backgroundColor: theme.hover },
-            }}
+            className={`flex items-center h-6  cursor-pointer text-[13px] ${theme.text}`}
+            style={{ paddingLeft: `${depth * 8 + 4}px` }}
             onClick={() => onFileSelect(item)}
           >
-            <Icon path={mdiFileDocument} size={0.6} style={{ color: theme.accent }} />
+            <Icon path={mdiFileDocument} size={0.6} className={`${theme.highlight}`} />
             <span className="ml-1">{item.name}</span>
           </div>
         </motion.div>
@@ -63,23 +58,21 @@ const FileExplorer = ({ data, onFileSelect }) => {
     return (
       <div key={fullPath}>
         <div
-          className={`flex items-center h-6 cursor-pointer text-[13px] bg-transparent  ${theme.highlight}`}
-          style={{
-            paddingLeft: `${depth * 8 + 4}px`,
-          }}
+          className={`flex items-center h-6 cursor-pointer text-[13px] bg-transparent  ${theme.text}`}
+          style={{ paddingLeft: `${depth * 8 + 4}px` }}
           onClick={() => toggleExpand(fullPath)}
         >
           <motion.div initial={false} animate={{ rotate: isExpanded ? 90 : 0 }}>
             <Icon
               path={isExpanded ? mdiChevronDown : mdiChevronRight}
               size={0.6}
-              className={`${isExpanded ? <> {theme.secondary} </> : ''}`}
+              className={`${isExpanded ? theme.highlight : theme.text}`}
             />
           </motion.div>
           <Icon
             path={isExpanded ? mdiFolderOpen : mdiFolder}
             size={0.6}
-            className={`${theme.highlight}`}
+            className={`${isExpanded ? theme.highlight : theme.text}`}
           />
           <span className="ml-1">{item.name}</span>
         </div>
@@ -101,13 +94,11 @@ const FileExplorer = ({ data, onFileSelect }) => {
 
   return (
     <div
-      className={`md:w-2/12 h-full overflow-y-auto flex flex-col justify-between bg-gradient-to-bl ${theme.primary} min-h-96 border-r ${theme.border}`}
+      className={`md:w-2/12 h-[90vh] overflow-y-auto rounded-l-lg flex flex-col justify-between bg-gradient-to-bl ${theme.primary}  border-r ${theme.border}`}
     >
       <div className="max-w-96">
         <div className="p-2 flex justify-between items-center">
-          <span className="text-[11px] uppercase tracking-wide" style={{ color: theme.text }}>
-            Explorer
-          </span>
+          <span className={`text-[11px] uppercase tracking-wide ${theme.text}`}>Explorer</span>
           <div className="flex gap-2 items-center">
             <Share2Icon size={16} className={` ${theme.highlight} cursor-pointer`} />
           </div>
@@ -115,7 +106,7 @@ const FileExplorer = ({ data, onFileSelect }) => {
         {renderItem(data)}
       </div>
 
-      <div className={`flex justify-center items-center p-1 ${theme.secondary} ${theme.highlight}`}>
+      <div className={`flex justify-center items-center p-2 mt-4 ${theme.secondary} ${theme.text}`}>
         <span className="text-[11px] uppercase tracking-wide">Made BY CraftFossLabs</span>
       </div>
     </div>
