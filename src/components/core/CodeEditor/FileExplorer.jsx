@@ -8,8 +8,9 @@ import {
 } from '@mdi/js';
 import Icon from '@mdi/react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Share2Icon } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
+import ThemeButton from '@/components/common/ThemeButton';
+import Share from '@/components/common/Share';
 
 const FileExplorer = ({ data, onFileSelect }) => {
   const { theme } = useTheme();
@@ -100,7 +101,8 @@ const FileExplorer = ({ data, onFileSelect }) => {
         <div className="p-2 flex justify-between items-center">
           <span className={`text-[11px] uppercase tracking-wide ${theme.text}`}>Explorer</span>
           <div className="flex gap-2 items-center">
-            <Share2Icon size={16} className={` ${theme.highlight} cursor-pointer`} />
+            <ThemeButton />
+            <Share url={'#'} />
           </div>
         </div>
         {renderItem(data)}

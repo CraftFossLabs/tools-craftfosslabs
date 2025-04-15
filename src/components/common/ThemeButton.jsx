@@ -14,11 +14,11 @@ const ThemeButton = () => {
           onClick={() => setThemeDropdownOpen(!isThemeDropdownOpen)}
           className={`p-2 rounded-lg hover:${theme.secondary} transition-colors flex items-center space-x-2 cursor-pointer`}
         >
-          <Layers className={`w-6 h-6 ${theme.highlight}`} />
+          <Layers className={`w-4 h-4 ${theme.highlight}`} />
           {isThemeDropdownOpen ? (
-            <ChevronDownIcon className="w-4 h-4" />
+            <ChevronDownIcon className={`w-4 h-4 ${theme.highlight}`} />
           ) : (
-            <ChevronUpIcon className="w-4 h-4" />
+            <ChevronUpIcon className={`w-4 h-4 ${theme.highlight}`} />
           )}
         </button>
 
@@ -28,7 +28,7 @@ const ThemeButton = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50"
+              className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-100"
             >
               {Object.entries(themes).map(([key, value]) => (
                 <button
