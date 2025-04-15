@@ -1,48 +1,71 @@
 import React, { useState } from 'react';
 import { endpoints } from '../../services/api.config';
 import Loader from '../../components/common/Loader';
-import { Eye, EyeClosed, ShieldCheck } from 'lucide-react';
+import { Eye, EyeOff, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { useProgress } from '@/context/ProgressContext';
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
-  const [tick, setTick] = useState({
-    email: false,
-    password: false,
+  const [validation, setValidation] = useState({
+    email: { valid: false, message: '' },
+    password: { valid: false, message: '' },
   });
   const [isLoading, setisLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
+  const { showProgress, hideProgress } = useProgress();
 
-  const ValidateData = () => {
-    let isValid = true;
-    const updatedTicks = { email: false, password: false };
+  const validateField = (field, value) => {
+    const validations = {
+      email: {
+        valid: /^\S+@\S+\.\S+$/.test(value),
+        message: /^\S+@\S+\.\S+$/.test(value) ? '' : 'Please enter a valid email address',
+      },
+      password: {
+        valid:
+          value.length >= 6 && /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,}$/.test(value),
+        message:
+          value.length >= 6 && /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,}$/.test(value)
+            ? ''
+            : 'Password must be at least 6 characters with uppercase, lowercase, number and special character',
+      },
+    };
 
-    if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      isValid = false;
-    } else {
-      updatedTicks.email = true;
-    }
-
-    if (formData.password.length < 6) {
-      isValid = false;
-    } else {
-      updatedTicks.password = true;
-    }
-
-    setTick(updatedTicks);
-    return isValid;
+    return validations[field];
   };
+  const handleInputChange = e => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    setValidation(prev => ({
+      ...prev,
+      [name]: validateField(name, value),
+    }));
+  };
+  const isFormValid = () => {
+    const newValidation = {
+      email: validateField('email', formData.email),
+      password: validateField('password', formData.password),
+    };
 
-  const handleRegister = async e => {
+    setValidation(newValidation);
+
+    return Object.values(newValidation).every(field => field.valid);
+  };
+  const handleLogin = async e => {
     e.preventDefault();
-    setError('');
-    if (!ValidateData()) {
+
+    if (!isFormValid()) {
       return;
     }
+    showProgress();
     setisLoading(true);
     try {
       const response = await endpoints.auth.register(formData);
@@ -51,110 +74,127 @@ const Login = () => {
     } catch (error) {
       console.log(error);
       setisLoading(false);
+      hideProgress();
+    } finally {
+      hideProgress();
+      setisLoading(false);
     }
   };
 
   const handleGoogleLogin = () => {};
 
   return (
-    <form
-      onSubmit={handleRegister}
-      className="space-y-4 max-w-md mx-auto  text-black dark:text-white  p-6 rounded-lg"
-    >
-      <img src="/Logo.svg" alt="craftfosslabs tools logo" loading="lazy" className="mx-auto" />
-      <h2 className="text-2xl font-bold text-center">Welcome Back </h2>
-      {error && <p className="text-red-500 text-center">{error}</p>}
+    <>
+      <Card className="max-w-md mx-auto">
+        <CardHeader className="space-y-1 flex flex-col items-center">
+          <img src="/Logo.svg" alt="CraftFossLabs tools logo" className="h-10 mb-2" />
+          <CardTitle className="text-2xl font-semibold text-center">Welcome Back</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="email" className="text-sm font-medium">
+                  Email
+                </Label>
+                {validation.email.valid && <ShieldCheck className="h-4 w-4 text-green-500" />}
+              </div>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                placeholder="user@craftfosslabs.com"
+                className={validation.email.message ? 'border-red-500 focus:ring-red-500' : ''}
+              />
+              {validation.email.message && (
+                <p className="text-sm text-red-500">{validation.email.message}</p>
+              )}
+            </div>
 
-      <div>
-        <label htmlFor="email" className="text-sm font-medium mb-1 flex items-center gap-2">
-          {tick.email && <ShieldCheck className="w-4 text-green-300" />}Email
-        </label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          value={formData.email}
-          onChange={e => setFormData({ ...formData, email: e.target.value })}
-          placeholder="user@craftfosslabs.com"
-          className="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 border-gray-300 dark:border-gray-600"
-        />
-      </div>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password" className="text-sm font-medium">
+                  Password
+                </Label>
+                {validation.password.valid && <ShieldCheck className="h-4 w-4 text-green-500" />}
+              </div>
+              <div className="relative">
+                <Input
+                  id="password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  placeholder="••••••••"
+                  className={
+                    validation.password.message
+                      ? 'border-red-500 focus:ring-red-500 pr-10'
+                      : 'pr-10'
+                  }
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                >
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
+              </div>
+              {validation.password.message && (
+                <p className="text-sm text-red-500">{validation.password.message}</p>
+              )}
+            </div>
 
-      <div>
-        <label htmlFor="password" className="text-sm font-medium mb-1 flex items-center gap-2">
-          {tick.password && <ShieldCheck className="w-4 text-green-300" />}Password
-        </label>
-        <div className="relative">
-          <input
-            type={showPassword ? 'text' : 'password'}
-            placeholder="••••••••"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={e => setFormData({ ...formData, password: e.target.value })}
-            className="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 border-gray-300 dark:border-gray-600"
-          />
-          <button
-            type="button"
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? <Eye className="w-5 h-5" /> : <EyeClosed className="w-5 h-5" />}
-          </button>
-        </div>
-      </div>
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-2 cursor-pointer">
-          <input type="checkbox" id="RememberMe" className="w-4 h-4" />
-          <label htmlFor="RememberMe" className="text-sm font-medium">
-            {' '}
-            Remember Me
-          </label>
-        </div>
-        <Link to={'/reset-password'} className="hover:underline cursor-pointer text-sm">
-          Forgot Password
-        </Link>
-      </div>
+            <div className="text-end">
+              <Link to={'/reset-password'} className="place-self-end hover:underline">
+                Forgot Password
+              </Link>
+            </div>
+            <Button
+              type="submit"
+              variant={`${isLoading ? 'outline' : 'default'}`}
+              className="w-full"
+              disabled={isLoading}
+            >
+              {isLoading ? <Loader text="taking You to Your Workspace..." /> : 'Login'}
+            </Button>
+          </form>
 
-      <button
-        type="submit"
-        disabled={isLoading}
-        className={`w-full transition duration-200 py-2 rounded-lg flex justify-center items-center ${isLoading ? 'cursor-not-allowed bg-transparent  focus:ring-2 focus:ring-purple-500 border border-gray-300 dark:border-gray-600' : 'cursor-pointer bg-blue-600 text-white hover:bg-blue-700 '}`}
-      >
-        {isLoading ? (
-          <>
-            {' '}
-            <Loader text={'Entering to CFL-Tools ...'} />{' '}
-          </>
-        ) : (
-          'Login'
-        )}
-      </button>
-      <p className="text-sm text-center text-gray-500 dark:text-gray-400">
-        Don't have an account?{' '}
-        <Link to="/register" className="text-blue-600 hover:underline dark:text-blue-500">
-          Register
-        </Link>
-      </p>
-      <div className="flex items-center justify-between my-4">
-        <hr className="w-full border-gray-300 dark:border-gray-600" />
-        <span className="text-sm text-gray-500 dark:text-gray-400 px-2">or</span>
-        <hr className="w-full border-gray-300 dark:border-gray-600" />
-      </div>
+          <div className="mt-4">
+            <div className="relative">
+              <Separator className="my-4" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="bg-background px-2 text-muted-foreground text-sm">or</span>
+              </div>
+            </div>
 
-      <button
-        type="button"
-        onClick={handleGoogleLogin}
-        className="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 border-gray-300 dark:border-gray-600 flex justify-center items-center gap-2"
-      >
-        <img
-          src="https://www.svgrepo.com/show/475656/google-color.svg"
-          alt="Google"
-          className="w-5 h-5 mr-2"
-        />
-        Continue with Google
-      </button>
-    </form>
+            <Button
+              variant="outline"
+              className="w-full mt-4"
+              type="button"
+              onClick={handleGoogleLogin}
+            >
+              <img
+                src="https://www.svgrepo.com/show/475656/google-color.svg"
+                alt="Google"
+                className="w-5 h-5 mr-2"
+              />
+              Continue with Google
+            </Button>
+          </div>
+        </CardContent>
+        <CardFooter className="flex justify-center">
+          <p className="text-sm text-muted-foreground">
+            Don't Have an Account? No Worry{' '}
+            <Link to="/register" className="text-primary hover:underline font-medium">
+              Register
+            </Link>
+          </p>
+        </CardFooter>
+      </Card>
+    </>
   );
 };
 

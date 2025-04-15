@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
-import { endpoints } from '../../services/api.config';
-import Loader from '../../components/common/Loader';
-import { Eye, EyeClosed, ShieldCheck } from 'lucide-react';
+import { endpoints } from '@/services/api.config';
+import Loader from '@/components/common/Loader';
+import { Eye, EyeOff, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -10,162 +16,214 @@ const Register = () => {
     email: '',
     password: '',
   });
-  const [tick, setTick] = useState({
-    email: false,
-    password: false,
-    name: false,
+
+  const [validation, setValidation] = useState({
+    name: { valid: false, message: '' },
+    email: { valid: false, message: '' },
+    password: { valid: false, message: '' },
   });
-  const [isLoading, setisLoading] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
 
-  const ValidateData = () => {
-    let isValid = true;
-    const updatedTicks = { name: false, email: false, password: false };
+  const validateField = (field, value) => {
+    const validations = {
+      name: {
+        valid: !!value.trim(),
+        message: value.trim() ? '' : 'Please enter your name',
+      },
+      email: {
+        valid: /^\S+@\S+\.\S+$/.test(value),
+        message: /^\S+@\S+\.\S+$/.test(value) ? '' : 'Please enter a valid email address',
+      },
+      password: {
+        valid:
+          value.length >= 6 && /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,}$/.test(value),
+        message:
+          value.length >= 6 && /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,}$/.test(value)
+            ? ''
+            : 'Password must be at least 6 characters with uppercase, lowercase, number and special character',
+      },
+    };
 
-    if (!formData.name) {
-      isValid = false;
-    } else {
-      updatedTicks.name = true;
-    }
+    return validations[field];
+  };
 
-    if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      isValid = false;
-    } else {
-      updatedTicks.email = true;
-    }
+  const handleInputChange = e => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    setValidation(prev => ({
+      ...prev,
+      [name]: validateField(name, value),
+    }));
+  };
 
-    if (formData.password.length < 6) {
-      isValid = false;
-    } else {
-      updatedTicks.password = true;
-    }
+  const isFormValid = () => {
+    const newValidation = {
+      name: validateField('name', formData.name),
+      email: validateField('email', formData.email),
+      password: validateField('password', formData.password),
+    };
 
-    setTick(updatedTicks);
-    return isValid;
+    setValidation(newValidation);
+
+    return Object.values(newValidation).every(field => field.valid);
   };
 
   const handleRegister = async e => {
     e.preventDefault();
-    setError('');
-    if (!ValidateData()) {
+
+    if (!isFormValid()) {
       return;
     }
-    setisLoading(true);
+
+    setIsLoading(true);
     try {
       const response = await endpoints.auth.register(formData);
-      setisLoading(false);
+      toast.success('Registration successful');
+      toast.success('Please Verify your email');
       console.log(response);
-    } catch (error) {
-      console.log(error);
-      setisLoading(false);
+    } catch (err) {
+      const errorData = err.response?.data?.errors;
+      if (errorData && Array.isArray(errorData)) {
+        const firstError = errorData[0];
+        setValidation(prev => ({
+          ...prev,
+          [firstError.field]: { valid: false, message: firstError.message },
+        }));
+      } else {
+        toast.error('Registration failed. Please try again.');
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleGoogleLogin = () => {};
-
   return (
-    <form
-      onSubmit={handleRegister}
-      className="space-y-4 max-w-md mx-auto  text-black dark:text-white  p-6 rounded-lg"
-    >
-      <img src="/Logo.svg" alt="craftfosslabs tools logo" loading="lazy" className="mx-auto" />
-      <h2 className="text-2xl font-bold text-center">Create an Account</h2>
-      {error && <p className="text-red-500 text-center">{error}</p>}
+    <Card className="max-w-md mx-auto">
+      <CardHeader className="space-y-1 flex flex-col items-center">
+        <img src="/Logo.svg" alt="CraftFossLabs tools logo" className="h-10 mb-2" />
+        <CardTitle className="text-2xl font-semibold text-center">Create an Account</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleRegister} className="space-y-4">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="name" className="text-sm font-medium">
+                Name
+              </Label>
+              {validation.name.valid && <ShieldCheck className="h-4 w-4 text-green-500" />}
+            </div>
+            <Input
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              placeholder="Your Name"
+              className={validation.name.message ? 'border-red-500 focus:ring-red-500' : ''}
+            />
+            {validation.name.message && (
+              <p className="text-sm text-red-500">{validation.name.message}</p>
+            )}
+          </div>
 
-      <div>
-        <label htmlFor="name" className="text-sm font-medium mb-1 flex items-center gap-2">
-          {tick.name && <ShieldCheck className="w-4 text-green-300" />} Name
-        </label>
-        <input
-          type="text"
-          placeholder="Your Name"
-          name="name"
-          id="name"
-          value={formData.name}
-          onChange={e => setFormData({ ...formData, name: e.target.value })}
-          className="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 border-gray-300 dark:border-gray-600"
-        />
-      </div>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="email" className="text-sm font-medium">
+                Email
+              </Label>
+              {validation.email.valid && <ShieldCheck className="h-4 w-4 text-green-500" />}
+            </div>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              placeholder="user@craftfosslabs.com"
+              className={validation.email.message ? 'border-red-500 focus:ring-red-500' : ''}
+            />
+            {validation.email.message && (
+              <p className="text-sm text-red-500">{validation.email.message}</p>
+            )}
+          </div>
 
-      <div>
-        <label htmlFor="email" className="text-sm font-medium mb-1 flex items-center gap-2">
-          {tick.email && <ShieldCheck className="w-4 text-green-300" />}Email
-        </label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          value={formData.email}
-          onChange={e => setFormData({ ...formData, email: e.target.value })}
-          placeholder="user@craftfosslabs.com"
-          className="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 border-gray-300 dark:border-gray-600"
-        />
-      </div>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password" className="text-sm font-medium">
+                Password
+              </Label>
+              {validation.password.valid && <ShieldCheck className="h-4 w-4 text-green-500" />}
+            </div>
+            <div className="relative">
+              <Input
+                id="password"
+                name="password"
+                type={showPassword ? 'text' : 'password'}
+                value={formData.password}
+                onChange={handleInputChange}
+                placeholder="••••••••"
+                className={
+                  validation.password.message ? 'border-red-500 focus:ring-red-500 pr-10' : 'pr-10'
+                }
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              >
+                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+              </button>
+            </div>
+            {validation.password.message && (
+              <p className="text-sm text-red-500">{validation.password.message}</p>
+            )}
+          </div>
 
-      <div>
-        <label htmlFor="password" className="text-sm font-medium mb-1 flex items-center gap-2">
-          {tick.password && <ShieldCheck className="w-4 text-green-300" />}Password
-        </label>
-        <div className="relative">
-          <input
-            type={showPassword ? 'text' : 'password'}
-            placeholder="••••••••"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={e => setFormData({ ...formData, password: e.target.value })}
-            className="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 border-gray-300 dark:border-gray-600"
-          />
-          <button
-            type="button"
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
-            onClick={() => setShowPassword(!showPassword)}
+          <Button
+            type="submit"
+            variant={`${isLoading ? 'outline' : 'default'}`}
+            className="w-full"
+            disabled={isLoading}
           >
-            {showPassword ? <Eye className="w-5 h-5" /> : <EyeClosed className="w-5 h-5" />}
-          </button>
+            {isLoading ? <Loader text="Registering..." /> : 'Register'}
+          </Button>
+        </form>
+
+        <div className="mt-4">
+          <div className="relative">
+            <Separator className="my-4" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="bg-background px-2 text-muted-foreground text-sm">or</span>
+            </div>
+          </div>
+
+          <Button
+            variant="outline"
+            className="w-full mt-4"
+            type="button"
+            onClick={() => {
+              /* Google login logic */
+            }}
+          >
+            <img
+              src="https://www.svgrepo.com/show/475656/google-color.svg"
+              alt="Google"
+              className="w-5 h-5 mr-2"
+            />
+            Continue with Google
+          </Button>
         </div>
-      </div>
-
-      <button
-        type="submit"
-        disabled={isLoading}
-        className={`w-full transition duration-200 py-2 rounded-lg flex justify-center items-center ${isLoading ? 'cursor-not-allowed bg-transparent  focus:ring-2 focus:ring-purple-500 border border-gray-300 dark:border-gray-600' : 'cursor-pointer bg-blue-600 text-white hover:bg-blue-700 '}`}
-      >
-        {isLoading ? (
-          <>
-            {' '}
-            <Loader text={'Registering ...'} />{' '}
-          </>
-        ) : (
-          'Register'
-        )}
-      </button>
-      <p className="text-sm text-center text-gray-500 dark:text-gray-400">
-        Already have an account?{' '}
-        <Link to="/login" className="text-blue-600 hover:underline dark:text-blue-500">
-          Login
-        </Link>
-      </p>
-      <div className="flex items-center justify-between my-4">
-        <hr className="w-full border-gray-300 dark:border-gray-600" />
-        <span className="text-sm text-gray-500 dark:text-gray-400 px-2">or</span>
-        <hr className="w-full border-gray-300 dark:border-gray-600" />
-      </div>
-
-      <button
-        type="button"
-        onClick={handleGoogleLogin}
-        className="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 border-gray-300 dark:border-gray-600 flex justify-center items-center gap-2"
-      >
-        <img
-          src="https://www.svgrepo.com/show/475656/google-color.svg"
-          alt="Google"
-          className="w-5 h-5 mr-2"
-        />
-        Continue with Google
-      </button>
-    </form>
+      </CardContent>
+      <CardFooter className="flex justify-center">
+        <p className="text-sm text-muted-foreground">
+          Already have an account?{' '}
+          <Link to="/login" className="text-primary hover:underline font-medium">
+            Login
+          </Link>
+        </p>
+      </CardFooter>
+    </Card>
   );
 };
 

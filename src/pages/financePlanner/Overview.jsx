@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   ArrowUp,
-  BadgeIndianRupeeIcon,
   IndianRupeeIcon,
   LayoutDashboardIcon,
   PencilIcon,
@@ -101,27 +100,23 @@ const Overview = () => {
   };
   return (
     <>
-      <div className="px-4 sm:px-6 lg:px-8 py-8">
+      <div className="p-2">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8 flex items-center space-x-4"
         >
-          <div className={`p-3 rounded-full bg-gradient-to-r ${theme.primary} bg-opacity-10`}>
-            <LayoutDashboardIcon className={`w-8 h-8 text-white`} />
+          <div className={`p-3 rounded-full bg-gradient-to-r ${theme.primary}`}>
+            <LayoutDashboardIcon className={`w-8 h-8 ${theme.text}`} />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Financial Overview</h1>
+            <h1 className={`text-3xl font-bold ${theme.highlight}`}>Financial Overview</h1>
             <p className="text-lg text-gray-600">Track your finances and plan your future</p>
           </div>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <StatCard
-            title="Monthly Income"
-            value={`₹${totalIncome}`}
-            borderColor="border-purple-400"
-          >
+          <StatCard title="Monthly Income" value={`₹${totalIncome}`}>
             <div className="mt-2">
               {isEditingSalary ? (
                 <div className="flex items-center space-x-2">
@@ -149,7 +144,7 @@ const Overview = () => {
                       setTempSalary(monthlySalary.toString());
                       setIsEditingSalary(true);
                     }}
-                    className="text-gray-400 hover:text-gray-600"
+                    className="text-gray-400 hover:text-gray-600 cursor-pointer"
                   >
                     <PencilIcon className="h-4 w-4" />
                   </button>
@@ -162,28 +157,25 @@ const Overview = () => {
             value={`₹${totalExpenses}`}
             children={<Wallet2Icon className={`w-6 h-6 text-green-600`} />}
             color="bg-green-200"
-            borderColor="border-green-400"
           />
           <StatCard
             title="Total Loans"
             value={`₹${totalLoans}`}
             children={<IndianRupeeIcon className={`w-6 h-6 text-yellow-600`} />}
             color="bg-red-200"
-            borderColor="border-red-400"
           />
           <StatCard
             title="Savings Rate"
             value={`${totalIncome > 0 ? (((totalIncome - totalExpenses) / totalIncome) * 100).toFixed(1) : 0}%`}
             children={<ArrowUp className={`w-6 h-6 text-blue-600 `} />}
             color="bg-blue-200"
-            borderColor="border-blue-400"
           />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <SideIncomeCard onUpdate={handleSideIncomeUpdate} />
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <h2 className="text-xl font-semibold mb-4">Expense Categories</h2>
+          <div className={`bg-gradient-to-bl ${theme.primary} rounded-xl shadow-sm p-6`}>
+            <h2 className={`text-xl font-semibold mb-4 ${theme.highlight} `}>Expense Categories</h2>
             {Object.entries(expensesByCategory).map(([category, amount]) => (
               <CategoryCard
                 key={category}
@@ -195,8 +187,8 @@ const Overview = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-xl font-semibold mb-4">Recent Transactions</h2>
+        <div className={`bg-gradient-to-bl ${theme.primary} rounded-xl shadow-sm p-6`}>
+          <h2 className={`text-xl font-semibold mb-4 ${theme.highlight}`}>Recent Transactions</h2>
           <div className="space-y-4">
             {recentTransactions.map((transaction, index) => (
               <RecentTransactionCard

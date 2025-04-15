@@ -1,4 +1,4 @@
-import { Loader2, LoaderPinwheel, Waves } from 'lucide-react';
+import { LoaderPinwheel } from 'lucide-react';
 import React from 'react';
 
 const Loader = ({ text }) => {

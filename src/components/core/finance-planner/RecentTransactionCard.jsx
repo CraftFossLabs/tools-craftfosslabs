@@ -37,7 +37,7 @@ const RecentTransactionCard = ({ item, type }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex items-center justify-between p-4 bg-white rounded-lg shadow-sm"
+      className={`flex items-center justify-between p-4 ${theme.secondary} ${theme.text} rounded-lg shadow-sm`}
     >
       <div className="flex items-center space-x-4">
         <div className={`p-2 rounded-full ${type === 'expense' ? 'bg-red-100' : 'bg-green-100'}`}>
@@ -53,7 +53,7 @@ const RecentTransactionCard = ({ item, type }) => {
         </div>
         <div>
           <p className="font-medium">{getDisplayTitle()}</p>
-          <div className="flex items-center text-sm text-gray-500 space-x-2">
+          <div className="flex items-center text-sm space-x-2">
             <CalendarIcon className="w-4 h-4" />
             <span>{getDisplayDate()}</span>
             <TagIcon className="w-4 h-4 ml-2" />

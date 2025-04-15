@@ -2,7 +2,7 @@ import React from 'react';
 
 const BackgroundElement = () => {
   return (
-    <div className="relative"> 
+    <div className="relative">
       <div className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none">
         <svg width="100%" height="100%">
           <defs>
@@ -22,9 +22,11 @@ const BackgroundElement = () => {
             </linearGradient>
 
             <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" 
-                stroke="url(#gridGradientLight)" 
-                strokeWidth="1" 
+              <path
+                d="M 40 0 L 0 0 0 40"
+                fill="none"
+                stroke="url(#gridGradientLight)"
+                strokeWidth="1"
                 className="dark:stroke-[url(#gridGradientDark)]"
               />
             </pattern>
@@ -49,7 +51,7 @@ const BackgroundElement = () => {
           </g>
         </svg>
       </div>
- 
+
       <style>{`
         @keyframes beamMotion {
           0% {
