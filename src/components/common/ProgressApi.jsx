@@ -1,20 +1,29 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useProgress } from '@/context/ProgressContext';
-import { useTheme } from '@/context/ThemeContext';
 
 const ProgressApi = () => {
   const { isProgressVisible } = useProgress();
-  const { theme } = useTheme();
 
   return (
     <AnimatePresence>
       {isProgressVisible && (
         <motion.div
-          className={`fixed top-0 left-0 right-0 h-[3px] ${theme.accent} z-50`}
-          initial={{ width: 0 }}
-          animate={{ width: '100%', transition: { duration: 2, ease: 'easeInOut' } }}
-          exit={{ opacity: 0, transition: { duration: 0.3 } }}
+          className={`
+            fixed top-0 left-1/2 transform -translate-x-1/2 
+            h-12 w-0 bg-gradient-to-r from-pink-500 via-yellow-400 to-green-400
+            rounded-full shadow-lg z-50
+          `}
+          initial={{ scaleX: 0 }}
+          animate={{
+            scaleX: 1,
+            transition: { duration: 1, ease: 'easeInOut' },
+          }}
+          exit={{
+            opacity: 0,
+            transition: { duration: 0.3 },
+          }}
+          style={{ transformOrigin: 'center' }}
         />
       )}
     </AnimatePresence>

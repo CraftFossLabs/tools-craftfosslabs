@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { useProgress } from '@/context/ProgressContext';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -16,16 +17,14 @@ const Register = () => {
     email: '',
     password: '',
   });
-
   const [validation, setValidation] = useState({
     name: { valid: false, message: '' },
     email: { valid: false, message: '' },
     password: { valid: false, message: '' },
   });
-
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
+  const { showProgress, hideProgress } = useProgress();
   const validateField = (field, value) => {
     const validations = {
       name: {
@@ -76,13 +75,14 @@ const Register = () => {
     if (!isFormValid()) {
       return;
     }
-
+    showProgress();
     setIsLoading(true);
     try {
       const response = await endpoints.auth.register(formData);
       toast.success('Registration successful');
       toast.success('Please Verify your email');
       console.log(response);
+      hideProgress();
     } catch (err) {
       const errorData = err.response?.data?.errors;
       if (errorData && Array.isArray(errorData)) {
@@ -93,9 +93,11 @@ const Register = () => {
         }));
       } else {
         toast.error('Registration failed. Please try again.');
+        hideProgress();
       }
     } finally {
       setIsLoading(false);
+      hideProgress();
     }
   };
 

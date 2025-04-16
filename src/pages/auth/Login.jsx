@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { endpoints } from '../../services/api.config';
 import Loader from '../../components/common/Loader';
 import { Eye, EyeOff, ShieldCheck } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { useProgress } from '@/context/ProgressContext';
+import Cookies from 'js-cookie';
+import useUserStore from '@/store/userStore';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -22,6 +24,8 @@ const Login = () => {
   const [isLoading, setisLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { showProgress, hideProgress } = useProgress();
+  const { setUser } = useUserStore();
+  const navigate = useNavigate();
 
   const validateField = (field, value) => {
     const validations = {
@@ -68,9 +72,18 @@ const Login = () => {
     showProgress();
     setisLoading(true);
     try {
-      const response = await endpoints.auth.register(formData);
+      const response = await endpoints.auth.login(formData);
+      const { token, user } = response?.data || {};
       setisLoading(false);
-      console.log(response);
+      if (token && user) {
+        Cookies.set('auth_token', token, {
+          expires: 7,
+          secure: true,
+          sameSite: 'Strict',
+        });
+        setUser(user);
+        navigate('/dashboard');
+      }
     } catch (error) {
       console.log(error);
       setisLoading(false);

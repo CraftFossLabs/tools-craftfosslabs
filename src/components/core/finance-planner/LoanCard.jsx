@@ -59,16 +59,16 @@ const LoanCard = ({ loan, children }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 ">
-          <div className={`p-4 rounded-lg bg-gradient-to-r ${theme.accent}`}>
-            <p className="text-sm text-white">Monthly Payment</p>
+          <div className={`p-4 rounded-lg bg-gradient-to-r ${theme.primary}`}>
+            <p className={`text-sm  ${theme.text} `}>Monthly Payment</p>
             <p className={`text-xl font-bold`}>{formatCurrency(loan.monthlyPayment)}</p>
           </div>
-          <div className={`p-4 rounded-lg bg-gradient-to-r ${theme.accent}`}>
-            <p className="text-sm text-white">Total Amount</p>
+          <div className={`p-4 rounded-lg bg-gradient-to-r ${theme.primary}`}>
+            <p className={`text-sm  ${theme.text} `}>Total Amount</p>
             <p className={`text-xl font-bold`}>{formatCurrency(loan.totalAmount)}</p>
           </div>
-          <div className={`p-4 rounded-lg bg-gradient-to-r ${theme.accent}`}>
-            <p className="text-sm ">Estimated Months</p>
+          <div className={`p-4 rounded-lg bg-gradient-to-r ${theme.primary}`}>
+            <p className={`text-sm  ${theme.text} `}>Estimated Months</p>
             <p className={`text-xl font-bold`}>
               {Math.ceil(loan.totalAmount / loan.monthlyPayment)} months
             </p>

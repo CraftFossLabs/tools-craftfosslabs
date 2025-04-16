@@ -68,7 +68,7 @@ const FlexiblePaymentSchedule = ({ loan, onSave }) => {
 
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
-          <thead className={`${theme.accent} ${theme.text} `}>
+          <thead className={`${theme.secondary} ${theme.text} `}>
             <tr>
               <th className="md:px-6 md:py-3 text-left text-xs font-medium  uppercase tracking-wider">
                 Month

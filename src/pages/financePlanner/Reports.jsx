@@ -207,7 +207,7 @@ const Reports = () => {
           <SummaryCard
             title="Financial Health"
             value={`${healthScore.toFixed(1)}%`}
-            children={<ChartBarIcon className="w-6 h-6 text-inidgo-600" />}
+            children={<ChartBarIcon className="w-6 h-6 text-black" />}
             color="bg-indigo-100"
           />
         </div>

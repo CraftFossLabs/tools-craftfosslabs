@@ -24,6 +24,8 @@ import CodeDashboard from '@/pages/vs-code/CodeDashboard';
 import CodeViewer from '@/pages/vs-code/CodeViewer';
 import { ProgressProvider } from '@/context/ProgressContext';
 import ProgressApi from '@/components/common/ProgressApi';
+import VerifyEmail from '@/pages/auth/VerifyEmail';
+import SetNewPassword from '@/pages/auth/SetNewPassword';
 
 const Routess = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -57,6 +59,8 @@ const Routess = () => {
                   element={<CommonLayout children={<Contact />} />}
                   ErrorBoundary={<ErrorBoundary />}
                 />
+
+                {/* auth pges  */}
                 <Route
                   path="/register"
                   element={<CommonLayout children={<AuthLayout children={<Register />} />} />}
@@ -72,6 +76,17 @@ const Routess = () => {
                   element={<CommonLayout children={<AuthLayout children={<ResetPassword />} />} />}
                   ErrorBoundary={<ErrorBoundary />}
                 />
+                <Route
+                  path="/verify-email/:token"
+                  element={<CommonLayout children={<AuthLayout children={<VerifyEmail />} />} />}
+                  ErrorBoundary={<ErrorBoundary />}
+                />
+                <Route
+                  path="/reset-password/:resetToken"
+                  element={<CommonLayout children={<AuthLayout children={<SetNewPassword />} />} />}
+                  ErrorBoundary={<ErrorBoundary />}
+                />
+
                 <Route
                   path="/dashboard"
                   element={<DashboardLayout children={<Dashboard />} />}

@@ -122,7 +122,7 @@ const Editor = ({ file }) => {
   }
 
   return (
-    <motion.div className={`flex-1 flex flex-col w-[70vw] overflow-scroll bg-black`}>
+    <motion.div className={`flex-1 flex flex-col w-[70vw] overflow-scroll bg-black rounded-r-lg`}>
       {renderTabs()}
       <div className="flex-1 overflow-auto h-[94vh]">
         <div className="p-4 bg-black h-[82vh] overflow-y-auto">

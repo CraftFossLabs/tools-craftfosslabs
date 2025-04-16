@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { toast } from 'react-hot-toast';
 
 const api = axios.create({
   baseURL: 'http://localhost:8000/api',
@@ -21,7 +20,10 @@ const endpoints = {
   auth: {
     register: data => api.post('/auth/register', data),
     login: data => api.post('/auth/login', data),
-    ResetPassword: data => api.post('/auth/reset-password', data),
+    ResetPassword: email => api.post('/auth/forgot-password', { email }),
+    verifyEmail: (token, email) => api.get(`/auth/verify-email/${token}?email=${email}`),
+    setNewPassword: (resetToken, password, confirmPassword) =>
+      api.put(`/auth/reset-password/${resetToken}`, { password, confirmPassword }),
   },
   financePlanner: {},
   VsCode: {},
