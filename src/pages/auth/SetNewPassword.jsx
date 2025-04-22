@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { useProgress } from '@/context/ProgressContext';
 import { endpoints } from '@/services/api.config';
 import Loader from '@/components/common/Loader';
 import { Eye, EyeOff } from 'lucide-react';
@@ -13,7 +12,6 @@ import { Eye, EyeOff } from 'lucide-react';
 const SetNewPassword = () => {
   const { resetToken } = useParams();
   const navigate = useNavigate();
-  const { showProgress, hideProgress } = useProgress();
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -41,7 +39,6 @@ const SetNewPassword = () => {
 
     try {
       setIsLoading(true);
-      showProgress();
 
       const res = await endpoints.auth.setNewPassword(resetToken, password, confirmPassword);
       toast.success(res.data?.message || 'Password updated! You can now login.', {
@@ -53,7 +50,6 @@ const SetNewPassword = () => {
     } catch (error) {
       toast.error(error.response?.data?.message || 'Something went wrong.');
     } finally {
-      hideProgress();
       setIsLoading(false);
     }
   };

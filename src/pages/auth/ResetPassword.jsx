@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Loader from '../../components/common/Loader';
 import { ShieldCheck } from 'lucide-react';
 import { endpoints } from '../../services/api.config';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useProgress } from '@/context/ProgressContext';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 
@@ -16,7 +15,6 @@ const ResetPassword = () => {
     email: { valid: false, message: '' },
   });
   const [isLoading, setIsLoading] = useState(false);
-  const { showProgress, hideProgress } = useProgress();
 
   useEffect(() => {
     if (email) {
@@ -46,7 +44,6 @@ const ResetPassword = () => {
     if (!isFormValid()) return;
 
     setIsLoading(true);
-    showProgress();
 
     try {
       const response = await endpoints.auth.ResetPassword(email);
@@ -64,7 +61,6 @@ const ResetPassword = () => {
         description: error.response?.data?.message || 'Something went wrong',
       });
     } finally {
-      hideProgress();
       setIsLoading(false);
     }
   };

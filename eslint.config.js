@@ -14,6 +14,15 @@ export default [
     },
   },
   {
+    files: ['public/sw.js'],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: {
+        ...globals.serviceworker,
+      },
+    },
+  },
+  {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 2020,
@@ -32,7 +41,7 @@ export default [
       ...js.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       'no-unused-vars': ['error', { varsIgnorePattern: '^[a-zA-Z_]' }],
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      'react-refresh/only-export-components': 'off',
     },
   },
 ];

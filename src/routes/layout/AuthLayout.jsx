@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '@/context/ThemeContext';
+import { useNavigate } from 'react-router-dom';
+import useUserStore from '@/store/userStore';
 
 const AuthLayout = ({ children }) => {
   const { theme } = useTheme();
+  const user = useUserStore(state => state.user);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
+
   const containerVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },

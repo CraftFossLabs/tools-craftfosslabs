@@ -47,7 +47,7 @@ const VerifyEmail = () => {
       setMessage(msg);
       toast.error(msg);
     }
-  }, [token, email]);
+  }, [token, email, navigate]);
 
   const statusIcon =
     status === 'loading' ? (

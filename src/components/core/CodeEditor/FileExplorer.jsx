@@ -95,14 +95,14 @@ const FileExplorer = ({ data, onFileSelect }) => {
 
   return (
     <div
-      className={`md:w-2/12 h-[90vh] overflow-y-auto rounded-l-lg flex flex-col justify-between bg-gradient-to-bl ${theme.primary}  border-r ${theme.border}`}
+      className={`md:w-2/12 min-h-[90vh] overflow-y-auto rounded-l-lg flex flex-col justify-between h-full bg-gradient-to-bl ${theme.primary}  border-r ${theme.border}`}
     >
       <div className="max-w-96">
         <div className="p-2 flex justify-between items-center">
           <span className={`text-[11px] uppercase tracking-wide ${theme.text}`}>Explorer</span>
           <div className="flex gap-2 items-center">
             <ThemeButton />
-            <Share url={'#'} />
+            <Share url={window.location.href} />
           </div>
         </div>
         {renderItem(data)}

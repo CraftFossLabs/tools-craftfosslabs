@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import {
   DropdownMenu,
@@ -8,8 +6,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Linkedin, Twitter, Facebook, Copy, Share2, MessageCircle } from 'lucide-react';
-import toast from 'react-hot-toast';
 import { useTheme } from '@/context/ThemeContext';
+import { toast } from 'sonner';
 
 const Share = ({ url }) => {
   const encodedUrl = encodeURIComponent(url || window.location.href);

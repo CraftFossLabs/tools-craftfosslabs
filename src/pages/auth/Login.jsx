@@ -8,9 +8,9 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { useProgress } from '@/context/ProgressContext';
 import Cookies from 'js-cookie';
 import useUserStore from '@/store/userStore';
+import GoogleLoginButton from '@/components/common/GoogleLoginButton';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -23,7 +23,6 @@ const Login = () => {
   });
   const [isLoading, setisLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const { showProgress, hideProgress } = useProgress();
   const { setUser } = useUserStore();
   const navigate = useNavigate();
 
@@ -69,7 +68,6 @@ const Login = () => {
     if (!isFormValid()) {
       return;
     }
-    showProgress();
     setisLoading(true);
     try {
       const response = await endpoints.auth.login(formData);
@@ -87,14 +85,10 @@ const Login = () => {
     } catch (error) {
       console.log(error);
       setisLoading(false);
-      hideProgress();
     } finally {
-      hideProgress();
       setisLoading(false);
     }
   };
-
-  const handleGoogleLogin = () => {};
 
   return (
     <>
@@ -183,19 +177,7 @@ const Login = () => {
               </div>
             </div>
 
-            <Button
-              variant="outline"
-              className="w-full mt-4"
-              type="button"
-              onClick={handleGoogleLogin}
-            >
-              <img
-                src="https://www.svgrepo.com/show/475656/google-color.svg"
-                alt="Google"
-                className="w-5 h-5 mr-2"
-              />
-              Continue with Google
-            </Button>
+            <GoogleLoginButton />
           </div>
         </CardContent>
         <CardFooter className="flex justify-center">

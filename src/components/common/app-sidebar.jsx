@@ -79,10 +79,6 @@ const data = {
           title: 'Snippets',
           url: '/code-viewer/your-snippets',
         },
-        {
-          title: 'Viewer',
-          url: '/code-viewer/view',
-        },
       ],
     },
     {

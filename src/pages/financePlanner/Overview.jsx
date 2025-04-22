@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import {
   ArrowUp,
   IndianRupeeIcon,
@@ -15,6 +14,8 @@ import RecentTransactionCard from '@/components/core/finance-planner/RecentTrans
 import Header from '@/components/core/finance-planner/Header';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { endpoints } from '@/services/api.config';
+import { toast } from 'sonner';
 
 const Overview = () => {
   const { theme } = useTheme();
@@ -29,14 +30,21 @@ const Overview = () => {
   const [totalIncome, setTotalIncome] = useState(0);
   const [recentTransactions, setRecentTransactions] = useState([]);
 
-  const updateTotalIncome = (salary, sideIncomes = []) => {
+  const updateTotalIncome = async (salary, sideIncomes = []) => {
     const sideIncomeTotal = sideIncomes.reduce(
       (sum, income) => sum + parseFloat(income.amount || 0),
       0
     );
     const total = parseFloat(salary) + sideIncomeTotal;
-    setTotalIncome(total);
-    localStorage.setItem('totalIncome', total.toString());
+    try {
+      const response = await endpoints.FinancePLanner.UpdateSalary(total);
+      const data = response.data.monthlySalary;
+      setTotalIncome(data);
+      toast.success('Salary Got Updated');
+    } catch (error) {
+      console.log(error);
+      toast.error('Failed to Update the Salary');
+    }
   };
 
   const calculateExpenseStats = expenseData => {
@@ -67,38 +75,46 @@ const Overview = () => {
     setRecentTransactions(allTransactions);
   };
 
+  const GetAllDAta = async () => {
+    try {
+      const res = await endpoints.FinancePLanner.Overview();
+      const { data } = res;
+      console.log(data);
+      setExpenses(data.totalExpenses);
+      setLoans(data.totalLoans);
+      setMonthlySalary(data.monthlySalary);
+
+      calculateExpenseStats(data.totalExpenses);
+      calculateLoanStats(data.totalLoans);
+      updateTotalIncome(data.monthlySalary, data.sideIncomes);
+      updateRecentTransactions(data.totalExpenses, data.totalLoans);
+    } catch (error) {
+      console.log(error);
+      toast.error('Failed to Fetch Details of User');
+    }
+  };
   useEffect(() => {
-    const storedExpenses = localStorage.getItem('expenses');
-    const storedLoans = localStorage.getItem('loans');
-    const storedSalary = localStorage.getItem('monthlySalary');
-    const storedSideIncomes = localStorage.getItem('sideIncomes');
-
-    const parsedExpenses = storedExpenses ? JSON.parse(storedExpenses) : [];
-    const parsedLoans = storedLoans ? JSON.parse(storedLoans) : [];
-    const parsedSalary = storedSalary ? parseFloat(storedSalary) : 0;
-    const parsedSideIncomes = storedSideIncomes ? JSON.parse(storedSideIncomes) : [];
-
-    setExpenses(parsedExpenses);
-    setLoans(parsedLoans);
-    setMonthlySalary(parsedSalary);
-
-    calculateExpenseStats(parsedExpenses);
-    calculateLoanStats(parsedLoans);
-    updateTotalIncome(parsedSalary, parsedSideIncomes);
-    updateRecentTransactions(parsedExpenses, parsedLoans);
-  }, []);
+    GetAllDAta();
+  });
 
   const handleSideIncomeUpdate = sideIncomes => {
     updateTotalIncome(monthlySalary, sideIncomes);
   };
 
-  const handleSalarySubmit = () => {
+  const handleSalarySubmit = async () => {
     const newSalary = parseFloat(tempSalary);
     if (!isNaN(newSalary) && newSalary >= 0) {
-      setMonthlySalary(newSalary);
-      localStorage.setItem('monthlySalary', newSalary.toString());
-      setIsEditingSalary(false);
-      updateTotalIncome(newSalary);
+      try {
+        const response = await endpoints.FinancePLanner.UpdateSalary(newSalary);
+        const data = response.data.monthlySalary;
+        setMonthlySalary(data);
+        setIsEditingSalary(false);
+        updateTotalIncome(data);
+        toast.success('Salary Got Updated');
+      } catch (error) {
+        console.log(error);
+        toast.error('Failed to Update the Salary');
+      }
     }
   };
   return (

@@ -59,7 +59,7 @@ const DashboardLayout = ({ children }) => {
               <div className="flex items-center gap-4">
                 <Button variant={'outline'} className="rounded-3xl  gap-2">
                   <BurningFlame />
-                  {user.apiKeyCount}
+                  {user.apiMaxCall - user.apiKeyCount}
                 </Button>
                 <ThemeButton />
               </div>

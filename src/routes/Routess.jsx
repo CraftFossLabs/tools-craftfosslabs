@@ -22,8 +22,6 @@ import { AnimatePresence } from 'framer-motion';
 import Preloader from '@/components/common/Preloader';
 import CodeDashboard from '@/pages/vs-code/CodeDashboard';
 import CodeViewer from '@/pages/vs-code/CodeViewer';
-import { ProgressProvider } from '@/context/ProgressContext';
-import ProgressApi from '@/components/common/ProgressApi';
 import VerifyEmail from '@/pages/auth/VerifyEmail';
 import SetNewPassword from '@/pages/auth/SetNewPassword';
 
@@ -32,7 +30,7 @@ const Routess = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 1500);
   }, []);
   return (
     <>
@@ -40,104 +38,101 @@ const Routess = () => {
         {isLoading ? (
           <Preloader onLoadingComplete={() => setIsLoading(false)} />
         ) : (
-          <ProgressProvider>
-            <ProgressApi />
-            <Router>
-              <Routes>
-                <Route
-                  path="/"
-                  element={<CommonLayout children={<Home />} />}
-                  ErrorBoundary={<ErrorBoundary />}
-                />
-                <Route
-                  path="/about"
-                  element={<CommonLayout children={<About />} />}
-                  ErrorBoundary={<ErrorBoundary />}
-                />
-                <Route
-                  path="/contact"
-                  element={<CommonLayout children={<Contact />} />}
-                  ErrorBoundary={<ErrorBoundary />}
-                />
+          <Router>
+            <Routes>
+              <Route
+                path="/"
+                element={<CommonLayout children={<Home />} />}
+                ErrorBoundary={<ErrorBoundary />}
+              />
+              <Route
+                path="/about"
+                element={<CommonLayout children={<About />} />}
+                ErrorBoundary={<ErrorBoundary />}
+              />
+              <Route
+                path="/contact"
+                element={<CommonLayout children={<Contact />} />}
+                ErrorBoundary={<ErrorBoundary />}
+              />
 
-                {/* auth pges  */}
-                <Route
-                  path="/register"
-                  element={<CommonLayout children={<AuthLayout children={<Register />} />} />}
-                  ErrorBoundary={<ErrorBoundary />}
-                />
-                <Route
-                  path="/login"
-                  element={<CommonLayout children={<AuthLayout children={<Login />} />} />}
-                  ErrorBoundary={<ErrorBoundary />}
-                />
-                <Route
-                  path="/reset-password"
-                  element={<CommonLayout children={<AuthLayout children={<ResetPassword />} />} />}
-                  ErrorBoundary={<ErrorBoundary />}
-                />
-                <Route
-                  path="/verify-email/:token"
-                  element={<CommonLayout children={<AuthLayout children={<VerifyEmail />} />} />}
-                  ErrorBoundary={<ErrorBoundary />}
-                />
-                <Route
-                  path="/reset-password/:resetToken"
-                  element={<CommonLayout children={<AuthLayout children={<SetNewPassword />} />} />}
-                  ErrorBoundary={<ErrorBoundary />}
-                />
+              {/* auth pges  */}
+              <Route
+                path="/register"
+                element={<CommonLayout children={<AuthLayout children={<Register />} />} />}
+                ErrorBoundary={<ErrorBoundary />}
+              />
+              <Route
+                path="/login"
+                element={<CommonLayout children={<AuthLayout children={<Login />} />} />}
+                ErrorBoundary={<ErrorBoundary />}
+              />
+              <Route
+                path="/reset-password"
+                element={<CommonLayout children={<AuthLayout children={<ResetPassword />} />} />}
+                ErrorBoundary={<ErrorBoundary />}
+              />
+              <Route
+                path="/verify-email/:token"
+                element={<CommonLayout children={<AuthLayout children={<VerifyEmail />} />} />}
+                ErrorBoundary={<ErrorBoundary />}
+              />
+              <Route
+                path="/reset-password/:resetToken"
+                element={<CommonLayout children={<AuthLayout children={<SetNewPassword />} />} />}
+                ErrorBoundary={<ErrorBoundary />}
+              />
 
-                <Route
-                  path="/dashboard"
-                  element={<DashboardLayout children={<Dashboard />} />}
-                  ErrorBoundary={<ErrorBoundary />}
-                />
+              <Route
+                path="/dashboard"
+                element={<DashboardLayout children={<Dashboard />} />}
+                ErrorBoundary={<ErrorBoundary />}
+              />
 
-                <Route
-                  path="/finance-planner/overview"
-                  element={<DashboardLayout children={<Overview />} />}
-                  ErrorBoundary={<ErrorBoundary />}
-                />
-                <Route
-                  path="/finance-planner/expense"
-                  element={<DashboardLayout children={<Expenses />} />}
-                  ErrorBoundary={<ErrorBoundary />}
-                />
-                <Route
-                  path="/finance-planner/loan"
-                  element={<DashboardLayout children={<Loan />} />}
-                  ErrorBoundary={<ErrorBoundary />}
-                />
-                <Route
-                  path="/finance-planner/reports"
-                  element={<DashboardLayout children={<Reports />} />}
-                  ErrorBoundary={<ErrorBoundary />}
-                />
-                <Route
-                  path="/code-viewer/your-snippets"
-                  element={<DashboardLayout children={<CodeDashboard />} />}
-                  ErrorBoundary={<ErrorBoundary />}
-                />
-                <Route
-                  path="/code-viewer/view"
-                  element={<DashboardLayout children={<CodeViewer />} />}
-                  ErrorBoundary={<ErrorBoundary />}
-                />
+              <Route
+                path="/finance-planner/overview"
+                element={<DashboardLayout children={<Overview />} />}
+                ErrorBoundary={<ErrorBoundary />}
+              />
+              <Route
+                path="/finance-planner/expense"
+                element={<DashboardLayout children={<Expenses />} />}
+                ErrorBoundary={<ErrorBoundary />}
+              />
+              <Route
+                path="/finance-planner/loan"
+                element={<DashboardLayout children={<Loan />} />}
+                ErrorBoundary={<ErrorBoundary />}
+              />
+              <Route
+                path="/finance-planner/reports"
+                element={<DashboardLayout children={<Reports />} />}
+                ErrorBoundary={<ErrorBoundary />}
+              />
+              <Route
+                path="/code-viewer/your-snippets"
+                element={<DashboardLayout children={<CodeDashboard />} />}
+                ErrorBoundary={<ErrorBoundary />}
+              />
+              <Route
+                path="/code-viewer/view/:urlCode"
+                element={<DashboardLayout children={<CodeViewer />} />}
+                ErrorBoundary={<ErrorBoundary />}
+              />
 
-                <Route
-                  path="/privacy-policy"
-                  element={<CommonLayout children={<PrivacyPolicy />} />}
-                  ErrorBoundary={<ErrorBoundary />}
-                />
-                <Route
-                  path="/terms-condition"
-                  element={<CommonLayout children={<TermsCondition />} />}
-                  ErrorBoundary={<ErrorBoundary />}
-                />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Router>
-          </ProgressProvider>
+              <Route
+                path="/privacy-policy"
+                element={<CommonLayout children={<PrivacyPolicy />} />}
+                ErrorBoundary={<ErrorBoundary />}
+              />
+              <Route
+                path="/terms-condition"
+                element={<CommonLayout children={<TermsCondition />} />}
+                ErrorBoundary={<ErrorBoundary />}
+              />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Router>
         )}
       </AnimatePresence>
     </>
