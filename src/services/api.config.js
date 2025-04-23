@@ -2,8 +2,8 @@ import axios from 'axios';
 import useUserStore from '@/store/userStore';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api',
-  // baseURL: 'https://api.server.documentsheet.com/api',
+  // baseURL: 'http://localhost:8000/api',
+  baseURL: 'https://api.server.documentsheet.com/api',
 });
 api.interceptors.request.use(
   config => {
@@ -31,6 +31,7 @@ const endpoints = {
       api.put(`/auth/reset-password/${resetToken}`, { password, confirmPassword }),
     Logout: () => api.get('/auth/logout'),
     GoogleLogin: (name, email, picture) => api.post('/auth/google', { name, email, picture }),
+    contactUs: data => api.post('/auth/contact', { data }),
   },
   vsCode: {
     uploadZip: formData =>

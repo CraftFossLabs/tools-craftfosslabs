@@ -28,7 +28,7 @@ const AuthLayout = ({ children }) => {
   return (
     <>
       <motion.div
-        className={`xl:w-full lg:max-w-full md:max-w-7xl mx-auto min-h-screen flex md:flex-row flex-col-reverse justify-center items-center gap-6  bg-gradient-to-bl ${theme.primary}  ${theme.text}  xl:p-48  lg:p-12 py-20 p-2`}
+        className={`xl:w-full lg:max-w-full md:max-w-7xl mx-auto  flex md:flex-row flex-col-reverse justify-center items-center gap-6  bg-gradient-to-bl ${theme.primary}  ${theme.text}  xl:p-48  lg:p-12 py-20 p-2`}
         variants={containerVariants}
         initial="hidden"
         animate="visible"

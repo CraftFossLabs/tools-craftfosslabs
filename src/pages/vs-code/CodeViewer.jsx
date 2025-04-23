@@ -36,7 +36,7 @@ const CodeViewer = () => {
 
   useEffect(() => {
     fetchData();
-  });
+  }, []);
 
   return (
     <motion.div
