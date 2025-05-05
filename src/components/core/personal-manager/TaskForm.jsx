@@ -48,7 +48,7 @@ const TaskForm = ({
           <Label className="mb-1">Priority</Label>
           <Select
             value={task.priority}
-            onChange={e => onChange({ ...task, priority: e.target.value })}
+            onValueChange={(value) => onChange({ ...task, priority: value })}
           >
             <SelectTrigger className={`border ${theme.border} w-full`}>
               <SelectValue placeholder="Choose Prority" />
@@ -73,7 +73,7 @@ const TaskForm = ({
           <Label className="mb-1">Status</Label>
           <Select
             value={task.status}
-            onChange={e => onChange({ ...task, status: e.target.value })}
+            onValueChange={(value) => onChange({ ...task, status: value })}
             className="w-full p-2 border border-gray-300 rounded-md"
           >
             <SelectTrigger className={`border ${theme.border} w-full`}>

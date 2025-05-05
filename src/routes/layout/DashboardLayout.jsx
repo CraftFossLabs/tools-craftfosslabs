@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Flame } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useTheme } from '@/context/ThemeContext';
 
 const BurningFlame = () => {
   return (
@@ -30,6 +31,7 @@ const BurningFlame = () => {
 };
 
 const DashboardLayout = ({ children }) => {
+  const { theme } = useTheme();
   const user = useUserStore(state => state.user);
   const navigate = useNavigate();
   useEffect(() => {
@@ -53,11 +55,11 @@ const DashboardLayout = ({ children }) => {
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
-          <header className="flex h-12 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+          <header className={`flex h-12 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 bg-gradient-to-b ${theme.primary} ${theme.highlight}`}>
             <div className="flex items-center justify-between gap-2 px-4 w-full">
               <SidebarTrigger className="-ml-1" />
               <div className="flex items-center gap-4">
-                <Button variant={'outline'} className="rounded-3xl  gap-2">
+                <Button className={`rounded-3xl ${theme.button} ${theme.text}`}>
                   <BurningFlame />
                   {user.apiMaxCall - user.apiKeyCount}
                 </Button>
@@ -65,7 +67,7 @@ const DashboardLayout = ({ children }) => {
               </div>
             </div>
           </header>
-          <div className="flex-1 flex-col gap-4 md:p-4 pt-0">{children}</div>
+          <div className={`flex-1 flex-col gap-4 md:p-4 pt-0 bg-gradient-to-bl ${theme.primary} ${theme.text}`}>{children}</div>
         </SidebarInset>
       </SidebarProvider>
     </>

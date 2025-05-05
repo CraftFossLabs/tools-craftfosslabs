@@ -1,18 +1,14 @@
 import * as React from 'react';
 import {
   ApertureIcon,
-  AudioWaveform,
   BookOpen,
   Bot,
   ChromeIcon,
-  Command,
   Frame,
-  GalleryVerticalEnd,
   IndianRupeeIcon,
   PieChart,
   Settings2,
 } from 'lucide-react';
-
 import { NavMain } from '@/components/common/nav-main';
 import { NavProjects } from '@/components/common/nav-projects';
 import { NavUser } from '@/components/common/nav-user';
@@ -132,7 +128,7 @@ const data = {
 export function AppSidebar({ ...props }) {
   const user = useUserStore(state => state.user);
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon"  {...props}>
       <SidebarHeader>
         <div className="flex justify-start items-center gap-2">
           <img src="/Logo.svg" alt="logo" loading="lazy" className="w-6 h-6" /> CRAFTFOSSLABS

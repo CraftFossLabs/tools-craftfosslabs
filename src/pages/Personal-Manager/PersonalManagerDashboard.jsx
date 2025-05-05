@@ -43,7 +43,7 @@ const PersonalManagerDashboard = () =>  {
       } else if (fetchedTasks && Array.isArray(fetchedTasks.tasks)) {
         setTasks(fetchedTasks.tasks);
       } else {
-        console.warn('Unexpected response format, returning empty array:', response.data);
+        console.warn('Unexpected response format, returning empty array:', fetchedTasks.data);
         setTasks([]);
       } 
     } catch (error) {
@@ -143,10 +143,10 @@ const PersonalManagerDashboard = () =>  {
   };
 
   return (
-    <div className={`w-full bg-gradient-to-bl ${theme.primary} ${theme.text} h-full`}>
+    <div className={`w-full  ${theme.text} h-full`}>
       <div className="pt-20 max-w-7xl mx-auto">
         <div className="mb-6 w-full flex justify-end items-center">
-          <Button onClick={handleOpenCreate} className={`flex items-center  gap-2 ${theme.button}`}>
+          <Button onClick={handleOpenCreate} className={`flex items-center  gap-2 ${theme.accent}`}>
             <PlusCircle size={18} />
             Add New Task
           </Button>
