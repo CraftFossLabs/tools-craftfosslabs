@@ -6,7 +6,7 @@ const CommonLayout = ({ children }) => {
   return (
     <>
       <Navbar />
-      <div className="text-black min-h-screen flex flex-col justify-center items-center pt-12">
+      <div className="text-black  min-h-screen flex flex-col justify-center items-center pt-12">
         {children}
       </div>
       <Footer />

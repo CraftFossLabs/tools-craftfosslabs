@@ -23,7 +23,8 @@ import Preloader from '@/components/common/Preloader';
 import CodeDashboard from '@/pages/vs-code/CodeDashboard';
 import CodeViewer from '@/pages/vs-code/CodeViewer';
 import VerifyEmail from '@/pages/auth/VerifyEmail';
-import SetNewPassword from '@/pages/auth/SetNewPassword';
+import SetNewPassword from '@/pages/auth/SetNewPassword'; 
+import PersonalManagerDashboard from '@/pages/Personal-Manager/PersonalManagerDashboard';
 
 const Routess = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -120,6 +121,14 @@ const Routess = () => {
                 ErrorBoundary={<ErrorBoundary />}
               />
 
+<Route
+                path="/personal-manger/overview"
+                element={<DashboardLayout children={<PersonalManagerDashboard />} />}
+                ErrorBoundary={<ErrorBoundary />}
+              />
+
+
+
               <Route
                 path="/privacy-policy"
                 element={<CommonLayout children={<PrivacyPolicy />} />}
@@ -131,6 +140,7 @@ const Routess = () => {
                 ErrorBoundary={<ErrorBoundary />}
               />
               <Route path="*" element={<NotFound />} />
+              
             </Routes>
           </Router>
         )}

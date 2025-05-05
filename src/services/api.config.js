@@ -2,8 +2,8 @@ import axios from 'axios';
 import useUserStore from '@/store/userStore';
 
 const api = axios.create({
-  // baseURL: 'http://localhost:8000/api',
-  baseURL: 'https://api.server.documentsheet.com/api',
+  baseURL: 'http://localhost:8000/api',
+  // baseURL: 'https://api.server.documentsheet.com/api',
 });
 api.interceptors.request.use(
   config => {
@@ -31,7 +31,6 @@ const endpoints = {
       api.put(`/auth/reset-password/${resetToken}`, { password, confirmPassword }),
     Logout: () => api.get('/auth/logout'),
     GoogleLogin: (name, email, picture) => api.post('/auth/google', { name, email, picture }),
-    contactUs: data => api.post('/auth/contact', { data }),
   },
   vsCode: {
     uploadZip: formData =>
@@ -52,6 +51,12 @@ const endpoints = {
     AddSideIncome: data => api.post('/tools/finance/sideincome', { data }),
     Loan: data => api.post('/tools/finance/loan', { data }),
   },
+  PersonalManager:{
+    fetchTasks : () =>api.get('/tools/task-manager/tasks'),
+    addTask : (task) => api.post('/tools/task-manager/tasks',task),
+    updateTask : ({_id,task}) => api.put(`/tools/task-manager/tasks/${_id}`, {task}),
+    deleteTask : (_id) =>api.delete(`/tools/task-manager/tasks/${_id}`)
+  }
 };
 
 export { endpoints, api };

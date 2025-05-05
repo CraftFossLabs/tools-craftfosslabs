@@ -57,8 +57,8 @@ const data = {
       icon: Bot,
       items: [
         {
-          title: 'Genesis',
-          url: '#',
+          title: 'Overview',
+          url: '/personal-manger/overview',
         },
         {
           title: 'Explorer',
