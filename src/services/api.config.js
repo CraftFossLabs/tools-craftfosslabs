@@ -2,8 +2,8 @@ import axios from 'axios';
 import useUserStore from '@/store/userStore';
 
 const api = axios.create({
-  // baseURL: 'http://localhost:8000/api',
-  baseURL: 'https://api.server.documentsheet.com/api',
+  baseURL: 'http://localhost:8000/api',
+  // baseURL: 'https://api.server.documentsheet.com/api',
 });
 api.interceptors.request.use(
   config => {
@@ -56,7 +56,48 @@ const endpoints = {
     addTask : (task) => api.post('/tools/task-manager/tasks',task),
     updateTask : ({_id,task}) => api.put(`/tools/task-manager/tasks/${_id}`, {task}),
     deleteTask : (_id) =>api.delete(`/tools/task-manager/tasks/${_id}`)
-  }
+  },
+  emailFinder: {
+    findEmail: (text) => api.post(`/tools/extract-emails`, { text }),
+    findMobile: (text) => api.post(`/tools/extract-phone-numbers`, { text }),
+    findLink: (text) => api.post(`/tools/extract-links`, { text }),
+  },
+  tracking: {
+    getTrackingStatus: () => api.get(`/tools/track-device`),
+  },
+  urlShortener: {
+    shortenURL: (url) => api.post('/tools/shorten', { url }),
+  },
+  maps: {
+    getLocation: (address) => api.get(`/tools/search-address?query=${address}`),
+  },
+  qrCode: {
+    generateQR: (data) =>
+      api.get('/tools/generate-qr', {
+        params: {
+          text: data.text,
+          size: data.size,
+          color: data.color,
+          backgroundColor: data.backgroundColor,
+        },
+      }),
+  },
+  profilePicture: {
+    generateAvatar: (data) =>
+      api.get(`/tools/generate-avatar`, {
+        params: { name: data.name, color: data.color },
+      }),
+    generateAvatarByGender: (gender) =>
+      api.get(`/tools/get-avatar-by-gender?gender=${gender}`),
+  },
+  fileConverter: {
+    convertFile: (formData) =>
+      api.post('/tools/convert-file', formData, {
+        headers: {
+          'Content-Type': undefined,
+        },
+      }),
+  },
 };
 
 export { endpoints, api };

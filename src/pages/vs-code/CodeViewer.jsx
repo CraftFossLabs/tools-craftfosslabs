@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import FileExplorer from '@/components/core/CodeEditor/FileExplorer';
 import Editor from '@/components/core/CodeEditor/Editor';
@@ -36,26 +36,28 @@ const CodeViewer = () => {
 
   useEffect(() => {
     fetchData();
-  });
+  }, []);
 
   return (
-    <motion.div
-      className={`flex flex-row w-full h-[calc(100vh-4rem)] border ${theme.border} backdrop-blur-2xl rounded-lg`}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      {loading ? (
-        <Loader text={'Loading code...'} />
-      ) : structure ? (
-        <>
-          <FileExplorer data={structure} onFileSelect={handleFileSelect} />
-          <Editor file={selectedFile} />
-        </>
-      ) : (
-        <p className="m-auto text-gray-400 italic">No file structure available</p>
-      )}
-    </motion.div>
+    <div className="min-h-screen flex flex-col justify-center items-center">
+      <motion.div className={`flex  w-[calc(100vw-4rem)] h-[calc(100vh-4rem)] border ${theme.border} backdrop-blur-2xl rounded-lg`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        {loading ? (
+          <Loader text={'Loading code...'} />
+        ) : structure ? (
+          <>
+            <FileExplorer data={structure} onFileSelect={handleFileSelect} />
+            <Editor file={selectedFile} />
+          </>
+        ) : (
+          <p className="m-auto text-gray-400 italic">No file structure available</p>
+        )}
+      </motion.div>
+      <Link to={'/'} className='w-full text-end hover:underline container mt-2 cursor-pointer'>Back to craftfosslabs</Link> 
+    </div>
   );
 };
 

@@ -23,7 +23,7 @@ import Preloader from '@/components/common/Preloader';
 import CodeDashboard from '@/pages/vs-code/CodeDashboard';
 import CodeViewer from '@/pages/vs-code/CodeViewer';
 import VerifyEmail from '@/pages/auth/VerifyEmail';
-import SetNewPassword from '@/pages/auth/SetNewPassword'; 
+import SetNewPassword from '@/pages/auth/SetNewPassword';
 import PersonalManagerDashboard from '@/pages/Personal-Manager/PersonalManagerDashboard';
 
 const Routess = () => {
@@ -117,11 +117,11 @@ const Routess = () => {
               />
               <Route
                 path="/code-viewer/view/:urlCode"
-                element={<DashboardLayout children={<CodeViewer />} />}
+                element={<CodeViewer />}
                 ErrorBoundary={<ErrorBoundary />}
               />
 
-<Route
+              <Route
                 path="/personal-manger/overview"
                 element={<DashboardLayout children={<PersonalManagerDashboard />} />}
                 ErrorBoundary={<ErrorBoundary />}
@@ -140,7 +140,7 @@ const Routess = () => {
                 ErrorBoundary={<ErrorBoundary />}
               />
               <Route path="*" element={<NotFound />} />
-              
+
             </Routes>
           </Router>
         )}

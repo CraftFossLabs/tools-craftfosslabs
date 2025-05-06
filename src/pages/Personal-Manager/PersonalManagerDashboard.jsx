@@ -3,7 +3,7 @@ import { DragifyProvider } from 'react-beautiful-dragify';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import TaskForm from '@/components/core/personal-manager/TaskForm';
 import TaskColumn from '@/components/core/personal-manager/TaskColumn';
-import Modal from '@/components/core/personal-manager/Modal';
+import Modal from '@/components/common/Modal';
 import { useTheme } from '@/context/ThemeContext';
 import { Button } from '@/components/ui/button';
 import Loader from '@/components/common/Loader';

@@ -20,6 +20,7 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar';
 import useUserStore from '@/store/userStore';
+import { Link } from 'react-router-dom';
 
 const data = {
   navMain: [
@@ -130,9 +131,9 @@ export function AppSidebar({ ...props }) {
   return (
     <Sidebar collapsible="icon"  {...props}>
       <SidebarHeader>
-        <div className="flex justify-start items-center gap-2">
+        <Link to={'/dashboard'} className="flex justify-start items-center gap-2">
           <img src="/Logo.svg" alt="logo" loading="lazy" className="w-6 h-6" /> CRAFTFOSSLABS
-        </div>
+        </Link>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
